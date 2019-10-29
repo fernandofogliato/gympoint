@@ -9,9 +9,9 @@ class CheckinController {
   async index(req, res) {
     const { page = 1 } = req.query;
 
-    const students = await Student.findAll({
-      order: ['created_date'],
-      attributes: ['id'],
+    const students = await Checkin.findAll({
+      order: ['created_at'],
+      attributes: ['id', 'created_at'],
       limit: 20,
       offset: (page - 1) * 20,
       include: [
@@ -27,19 +27,18 @@ class CheckinController {
   }
 
   async store(req, res) {
-    const { student_id } = req.params;
+    const student_id = req.params.id;
 
     /**
      * The user can only do five check-ins during a period of seven days in a row
      */
-    const startDate = new Date();
-    const endDate = subDays(startDate, 7);
+    const endDate = new Date();
+    const startDate = subDays(endDate, 7);
 
     const lastCheckins = await Checkin.findAll({
       where: {
-        provider_id: req.params.providerId,
-        canceled_at: null,
-        date: {
+        student_id,
+        created_at: {
           [Op.between]: [startOfDay(startDate), endOfDay(endDate)],
         },
       },
