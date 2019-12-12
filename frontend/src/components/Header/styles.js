@@ -17,15 +17,11 @@ export const Content = styled.div`
     display: flex;
     align-items: center;
 
-    img {
-      margin-right: 20px;
-      padding-right: 20px;
-      border-right: 1px solid #eee;
-    }
-
     a {
+      margin-left: 10px;
       font-weight: bold;
-      color: #7159c1;
+      color: #666;
+      white-space: nowrap;
     }
   }
 
@@ -47,20 +43,16 @@ export const Profile = styled.div`
 
     strong {
       display: block;
-      color: #333;
+      color: #666;
     }
 
-    a {
+    button {
+      border: none;
+      background: #fff;
       display: block;
       margin-top: 2px;
       font-size: 12px;
-      color: #999;
+      color: #de3b3b;
     }
-  }
-
-  img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
   }
 `;

@@ -28,10 +28,14 @@ export default function SignIn() {
       <img src={logo} alt="GymPoint" />
 
       <Form schema={schema} onSubmit={handleSubmit}>
+        <label htmlFor="email">SEU E-MAIL</label>
         <Input name="email" type="email" placeholder="exemplo@email.com" />
-        <Input name="password" type="password" placeholder="Sua senha" />
+        <label htmlFor="password">SUA SENHA</label>
+        <Input name="password" type="password" placeholder="*********" />
 
-        <button type="submit">{loading ? 'Carregando...' : 'Acessar'}</button>
+        <button type="submit">
+          {loading ? 'Carregando...' : 'Entrar no sistema'}
+        </button>
         <Link to="/register">Criar conta gratuita</Link>
       </Form>
     </>

@@ -1,12 +1,19 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import logo from '~/assets/logo-purple.svg';
+import { signOut } from '~/store/modules/auth/actions';
+
+import logo from '~/assets/logo-header.svg';
 import { Container, Content, Profile } from './styles';
 
 export default function Header() {
+  const dispatch = useDispatch();
   const profile = useSelector(state => state.user.profile);
+
+  function handleLogout() {
+    dispatch(signOut());
+  }
 
   return (
     <Container>
@@ -14,21 +21,20 @@ export default function Header() {
         <nav>
           <img src={logo} alt="GoBarber" />
           <Link to="/dashboard">DASHBOARD</Link>
+          <Link to="/dashboard">ALUNOS</Link>
+          <Link to="/dashboard">PLANOS</Link>
+          <Link to="/dashboard">MATRÍCULAS</Link>
+          <Link to="/dashboard">PEDIDOS DE AUXÍLIO</Link>
         </nav>
 
         <aside>
           <Profile>
             <div>
               <strong>{profile.name}</strong>
-              <Link to="/profile">Meu perfil</Link>
+              <button type="button" onClick={handleLogout}>
+                sair do sistema
+              </button>
             </div>
-            <img
-              src={
-                (profile.avatar && profile.avatar.url) ||
-                'https://api.adorable.io/avatars/50/abott@adorable.png'
-              }
-              alt={profile.name}
-            />
           </Profile>
         </aside>
       </Content>

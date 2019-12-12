@@ -27,8 +27,8 @@ export function* signIn({ payload }) {
 
     const { token, user } = response.data;
 
-    if (!user.provider) {
-      toast.error('Usuário não é prestador!');
+    if (!user.admin) {
+      toast.error('Usuário não é administrador!');
       return;
     }
 
@@ -50,7 +50,7 @@ export function* signUp({ payload }) {
       name,
       email,
       password,
-      provider: true,
+      admin: true,
     });
 
     history.push('/');
