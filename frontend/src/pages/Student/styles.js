@@ -40,6 +40,7 @@ export const StudentTable = styled.table`
   width: 100%;
   background: #fff;
   border-radius: 4px;
+  border-collapse: collapse;
 
   thead th {
     text-align: left;
@@ -51,38 +52,24 @@ export const StudentTable = styled.table`
     border-bottom: 1px solid #eee;
   }
 
-  img {
-    height: 100px;
-  }
-
-  strong {
-    color: #333;
-    display: block;
-  }
-
-  span {
-    display: block;
-    margin-top: 5px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  div {
-    display: flex;
-    align-items: center;
-
-    input {
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      color: #666;
-      padding: 6px;
-      width: 50px;
-    }
-  }
-
   button {
     background: none;
     border: 0;
     padding: 6px;
+  }
+`;
+
+export const Pagination = styled.div`
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  border-radius: 0 0 4px 4px;
+  padding: 15px;
+
+  button {
+    background: none;
+    border: 1px solid #eee;
+    width: 22px;
+    height: 22px;
   }
 `;
