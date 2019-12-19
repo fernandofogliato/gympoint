@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
@@ -28,15 +28,23 @@ export default function SignIn() {
       <img src={logo} alt="GymPoint" />
 
       <Form schema={schema} onSubmit={handleSubmit}>
-        <label htmlFor="email">SEU E-MAIL</label>
-        <Input name="email" type="email" placeholder="exemplo@email.com" />
-        <label htmlFor="password">SUA SENHA</label>
-        <Input name="password" type="password" placeholder="*********" />
+        <Input
+          label="SEU E-MAIL"
+          name="email"
+          type="email"
+          placeholder="exemplo@email.com"
+        />
+
+        <Input
+          label="SUA SENHA"
+          name="password"
+          type="password"
+          placeholder="*********"
+        />
 
         <button type="submit">
           {loading ? 'Carregando...' : 'Entrar no sistema'}
         </button>
-        <Link to="/register">Criar conta gratuita</Link>
       </Form>
     </>
   );

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   max-width: 600px;
@@ -17,22 +18,19 @@ export const Title = styled.div`
     display: flex;
   }
 
-  button {
+  a {
     background-color: #ee4d64;
     color: #fff;
-    border: 0;
     border-radius: 4px;
     padding: 5px;
     display: flex;
     align-items: center;
     margin-right: 10px;
-  }
+    transition: background 0.2s;
 
-  input {
-    padding: 5px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    color: #666;
+    &:hover {
+      background: ${darken(0.08, '#ee4d64')};
+    }
   }
 `;
 
@@ -56,6 +54,12 @@ export const StudentTable = styled.table`
     background: none;
     border: 0;
     padding: 6px;
+    transition: background 0.2s;
+    color: #ee4d64;
+
+    &:hover {
+      color: ${darken(0.08, '#ee4d64')};
+    }
   }
 `;
 
