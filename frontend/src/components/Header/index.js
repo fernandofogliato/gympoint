@@ -21,10 +21,10 @@ export default function Header() {
         <nav>
           <img src={logo} alt="GoBarber" />
           <Link to="/dashboard">DASHBOARD</Link>
-          <Link to="/student">ALUNOS</Link>
-          <Link to="/dashboard">PLANOS</Link>
-          <Link to="/dashboard">MATRÍCULAS</Link>
-          <Link to="/dashboard">PEDIDOS DE AUXÍLIO</Link>
+          <Link to="/students">ALUNOS</Link>
+          <Link to="/plans">PLANOS</Link>
+          <Link to="/enrollments">MATRÍCULAS</Link>
+          <Link to="/orders">PEDIDOS DE AUXÍLIO</Link>
         </nav>
 
         <aside>

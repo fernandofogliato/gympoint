@@ -32,6 +32,18 @@ export const Title = styled.div`
       background: ${darken(0.08, '#ee4d64')};
     }
   }
+
+  input {
+    text-indent: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 36px;
+    color: #666;
+
+    &::placeholder {
+      color: #999;
+    }
+  }
 `;
 
 export const StudentTable = styled.table`

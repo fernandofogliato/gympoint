@@ -64,7 +64,7 @@ export default function StudentList(props) {
                 <button
                   type="button"
                   title="Editar aluno"
-                  onClick={() => props.history.push(`/student/${student.id}`)}
+                  onClick={() => props.history.push(`/students/${student.id}`)}
                 >
                   <MdModeEdit size={20} />
                 </button>
