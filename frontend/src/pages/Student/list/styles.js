@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 
 export const Container = styled.div`
-  max-width: 600px;
+  max-width: 900px;
   margin: 35px auto;
   color: #444;
 `;
 
 export const Title = styled.div`
-  margin: 10px 0 25px 0;
+  margin: 10px 0 15px 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -19,6 +19,7 @@ export const Title = styled.div`
   }
 
   a {
+    height: 30px;
     background-color: #ee4d64;
     color: #fff;
     border-radius: 4px;
@@ -37,7 +38,7 @@ export const Title = styled.div`
     text-indent: 15px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    height: 36px;
+    height: 30px;
     color: #666;
 
     &::placeholder {

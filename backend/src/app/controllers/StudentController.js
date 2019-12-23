@@ -17,7 +17,7 @@ class StudentController {
     const students = await Student.findAll({
       where: name ? where : null,
       order: ['created_at'],
-      attributes: ['id', 'name', 'email', 'age', 'weight', 'height'],
+      attributes: ['id', 'name', 'email', 'dateOfBirth', 'weight', 'height'],
       limit,
       offset: (page - 1) * limit,
     });
@@ -37,7 +37,7 @@ class StudentController {
       email: Yup.string()
         .email()
         .required(),
-      age: Yup.number().required(),
+      dateOfBirth: Yup.date().required(),
       weight: Yup.number().required(),
       height: Yup.number().required(),
     });
@@ -64,7 +64,7 @@ class StudentController {
       email: Yup.string()
         .email()
         .required(),
-      age: Yup.number().required(),
+      dateOfBirth: Yup.date().required(),
       weight: Yup.number().required(),
       height: Yup.number().required(),
     });
@@ -85,15 +85,18 @@ class StudentController {
       }
     }
 
-    const { name, age, weight, height } = await Student.update(req.body, {
-      where: { id },
-    });
+    const { name, dateOfBirth, weight, height } = await Student.update(
+      req.body,
+      {
+        where: { id },
+      }
+    );
 
     return res.json({
       id,
       name,
       email,
-      age,
+      dateOfBirth,
       weight,
       height,
     });

@@ -1,6 +1,6 @@
 import styled, { keyframes, css } from 'styled-components';
 import { darken } from 'polished';
-import { Input as InputUnform } from '@rocketseat/unform';
+import { Form as FormUnform, Input as InputUnform } from '@rocketseat/unform';
 
 const rotate = keyframes`
   from {
@@ -9,6 +9,26 @@ const rotate = keyframes`
 
   to {
     transform: rotate(360deg);
+  }
+`;
+
+export const Form = styled(FormUnform)`
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+
+  span {
+    color: #fb6f91;
+    align-self: flex-start;
+    margin: 5px 0 10px 0;
+    font-weight: bold;
+  }
+
+  label {
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px 0 10px 0;
   }
 `;
 
@@ -28,13 +48,6 @@ export const Input = styled(InputUnform)`
     css`
       border: 1px solid red;
     `}
-
-  span {
-    color: #fb6f91;
-    align-self: flex-start;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
 `;
 
 export const SubmitButton = styled.button.attrs(props => ({
@@ -46,10 +59,11 @@ export const SubmitButton = styled.button.attrs(props => ({
   border: 0;
   border-radius: 4px;
   padding: 5px;
-  display: flex;
-  align-items: center;
   margin-right: 10px;
   transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &[disabled] {
     cursor: not-allowed;
@@ -77,11 +91,12 @@ export const BackButton = styled.button.attrs({
   border: 0;
   border-radius: 4px;
   padding: 5px;
-  display: flex;
-  align-items: center;
   margin-right: 10px;
   font-weight: bold;
   transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background: ${darken(0.08, '#ccc')};

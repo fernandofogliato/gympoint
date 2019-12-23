@@ -44,11 +44,4 @@ export default createGlobalStyle`
   h2 {
     height: 36px;
   }
-
-  label {
-    text-align: left;
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
 `;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { differenceInYears, parseISO } from 'date-fns';
 import {
   MdAdd,
   MdModeEdit,
@@ -24,7 +25,12 @@ export default function StudentList(props) {
           name: filterName,
         },
       });
-      setStudents(response.data);
+
+      const data = response.data.map(student => ({
+        ...student,
+        age: differenceInYears(new Date(), parseISO(student.dateOfBirth)),
+      }));
+      setStudents(data);
     }
     loadStudents();
   }, [filterName]);
@@ -34,9 +40,9 @@ export default function StudentList(props) {
       <Title>
         <h2>Gerenciando alunos</h2>
         <div>
-          <Link to="/student/new">
+          <Link to="/students/new">
             <MdAdd color="#fff" size={20} />
-            NOVO
+            Novo
           </Link>
           <input
             type="text"
@@ -51,7 +57,7 @@ export default function StudentList(props) {
           <tr>
             <th>NOME</th>
             <th>E-MAIL</th>
-            <th style={{ textAlign: 'left' }}>IDADE</th>
+            <th style={{ textAlign: 'center' }}>IDADE</th>
           </tr>
         </thead>
         <tbody>

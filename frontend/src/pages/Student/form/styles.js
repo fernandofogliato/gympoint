@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  max-width: 600px;
+  max-width: 900px;
   margin: 35px auto;
   color: #444;
 `;
@@ -9,14 +9,17 @@ export const Container = styled.div`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
   background: #ffff;
   padding: 20px;
   border-radius: 4px;
 
+  label {
+    margin-top: 15px;
+  }
+
   input {
     height: 44px;
-    margin-bottom: 10px;
+    width: 100%;
   }
 
   div {
@@ -25,6 +28,8 @@ export const Content = styled.div`
     justify-content: space-between;
 
     div {
+      width: 100%;
+      padding-right: 10px;
       display: flex;
       flex-direction: column;
     }
@@ -32,14 +37,13 @@ export const Content = styled.div`
 `;
 
 export const Title = styled.div`
-  margin: 10px 0 25px 0;
+  margin: 10px 0 15px 0;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   font-size: 16px;
 
-  .actions {
+  aside {
     display: flex;
-    flex-direction: row;
   }
 `;

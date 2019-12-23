@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import { Form } from '@rocketseat/unform';
 import { MdArrowBack, MdSave } from 'react-icons/md';
+import * as Yup from 'yup';
+
 import api from '~/services/api';
 
-import { SubmitButton, BackButton, Input } from '~/components/Form';
+import { SubmitButton, BackButton, Form, Input } from '~/components/Form';
 import { Container, Title, Content } from './styles';
+
+const schema = Yup.object().shape({
+  name: Yup.string().required('O nome é obrigatório'),
+  email: Yup.string()
+    .email('Insira um e-mail válido')
+    .required('O e-mail é obrigatório'),
+  dateOfBirth: Yup.string().required('A data é obrigatória'),
+  weight: Yup.string().required('O peso é obrigatório'),
+  height: Yup.string().required('A altura é obrigatória'),
+});
 
 export default function StudentForm(props) {
   const [student, setStudent] = useState();
@@ -25,11 +36,10 @@ export default function StudentForm(props) {
   }, [id]);
 
   async function handleSubmit(data) {
-    console.tron.log(data);
     if (id && id !== 'new') {
       await api.put(`students/${id}`, data);
     } else {
-      await api.post(`students`, data);
+      await api.post('students', data);
     }
     toast.success('Informações do aluno salvas com sucesso!');
     props.history.push('/students');
@@ -37,10 +47,10 @@ export default function StudentForm(props) {
 
   return (
     <Container>
-      <Form initialData={student} onSubmit={handleSubmit}>
+      <Form schema={schema} initialData={student} onSubmit={handleSubmit}>
         <Title>
           <h2>Cadastro de alunos</h2>
-          <div className="actions">
+          <aside>
             <BackButton onClick={() => props.history.goBack()}>
               <MdArrowBack size={20} />
               Voltar
@@ -49,7 +59,7 @@ export default function StudentForm(props) {
               <MdSave size={20} />
               Salvar
             </SubmitButton>
-          </div>
+          </aside>
         </Title>
 
         <Content>
@@ -69,10 +79,10 @@ export default function StudentForm(props) {
           <div>
             <div>
               <Input
-                label="IDADE"
-                name="age"
-                type="number"
-                placeholder="Idade"
+                label="DATA NASCTO."
+                name="dateOfBirth"
+                type="date"
+                placeholder="Data de nascto."
               />
             </div>
 
@@ -82,15 +92,20 @@ export default function StudentForm(props) {
                 name="weight"
                 type="number"
                 placeholder="Peso"
+                step="0.01"
+                min="0"
+                max="200"
               />
             </div>
-
             <div>
               <Input
                 label="ALTURA (em metros)"
                 name="height"
                 type="number"
                 placeholder="Altura"
+                step="0.01"
+                min="0"
+                max="3"
               />
             </div>
           </div>
