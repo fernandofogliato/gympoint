@@ -6,15 +6,16 @@ import * as Yup from 'yup';
 
 import api from '~/services/api';
 
+import DatePicker from '~/components/DatePicker';
 import { SubmitButton, BackButton, Form, Input } from '~/components/Form';
-import { Container, Title, Content } from './styles';
+import { Title, Content } from '~/pages/_layouts/form/styles';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('O nome é obrigatório'),
   email: Yup.string()
     .email('Insira um e-mail válido')
     .required('O e-mail é obrigatório'),
-  dateOfBirth: Yup.string().required('A data é obrigatória'),
+  dateOfBirth: Yup.string().required('A data de nascimento é obrigatória'),
   weight: Yup.string().required('O peso é obrigatório'),
   height: Yup.string().required('A altura é obrigatória'),
 });
@@ -36,6 +37,7 @@ export default function StudentForm(props) {
   }, [id]);
 
   async function handleSubmit(data) {
+    console.tron.log(data);
     if (id && id !== 'new') {
       await api.put(`students/${id}`, data);
     } else {
@@ -46,72 +48,60 @@ export default function StudentForm(props) {
   }
 
   return (
-    <Container>
-      <Form schema={schema} initialData={student} onSubmit={handleSubmit}>
-        <Title>
-          <h2>Cadastro de alunos</h2>
-          <aside>
-            <BackButton onClick={() => props.history.goBack()}>
-              <MdArrowBack size={20} />
-              Voltar
-            </BackButton>
-            <SubmitButton>
-              <MdSave size={20} />
-              Salvar
-            </SubmitButton>
-          </aside>
-        </Title>
+    <Form schema={schema} initialData={student} onSubmit={handleSubmit}>
+      <Title>
+        <h2>Cadastro de alunos</h2>
+        <aside>
+          <BackButton onClick={() => props.history.goBack()}>
+            <MdArrowBack size={20} />
+            Voltar
+          </BackButton>
+          <SubmitButton>
+            <MdSave size={20} />
+            Salvar
+          </SubmitButton>
+        </aside>
+      </Title>
 
-        <Content>
-          <Input
-            label="NOME COMPLETO"
-            name="name"
-            placeholder="Nome completo"
-          />
+      <Content>
+        <Input label="NOME COMPLETO" name="name" placeholder="Nome completo" />
 
-          <Input
-            label="ENDEREÇO DE E-MAIL"
-            name="email"
-            type="email"
-            placeholder="E-mail"
-          />
+        <Input
+          label="ENDEREÇO DE E-MAIL"
+          name="email"
+          type="email"
+          placeholder="E-mail"
+        />
+
+        <div>
+          <DatePicker label="DATA NASCTO." name="dateOfBirth" />
 
           <div>
-            <div>
-              <Input
-                label="DATA NASCTO."
-                name="dateOfBirth"
-                type="date"
-                placeholder="Data de nascto."
-              />
-            </div>
-
-            <div>
-              <Input
-                label="PESO (em kg)"
-                name="weight"
-                type="number"
-                placeholder="Peso"
-                step="0.01"
-                min="0"
-                max="200"
-              />
-            </div>
-            <div>
-              <Input
-                label="ALTURA (em metros)"
-                name="height"
-                type="number"
-                placeholder="Altura"
-                step="0.01"
-                min="0"
-                max="3"
-              />
-            </div>
+            <Input
+              label="PESO (em kg)"
+              name="weight"
+              type="number"
+              placeholder="Peso"
+              step="0.01"
+              min="0"
+              max="200"
+            />
           </div>
-        </Content>
-      </Form>
-    </Container>
+
+          <div>
+            <Input
+              label="ALTURA (em metros)"
+              name="height"
+              type="number"
+              placeholder="Altura"
+              step="0.01"
+              min="0"
+              max="3"
+            />
+          </div>
+        </div>
+      </Content>
+    </Form>
   );
 }
 
