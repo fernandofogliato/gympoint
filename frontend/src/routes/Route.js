@@ -5,13 +5,14 @@ import { Route, Redirect } from 'react-router-dom';
 import AuthLayout from '~/pages/_layouts/auth';
 import DefaultLayout from '~/pages/_layouts/default';
 import FormLayout from '~/pages/_layouts/form';
+import ListLayout from '~/pages/_layouts/list';
 
 import { store } from '~/store';
 
 export default function RouteWrapper({
   component: Component,
   isPrivate = false,
-  isForm = false,
+  layout,
   ...rest
 }) {
   const { signed } = store.getState().auth;
@@ -24,12 +25,7 @@ export default function RouteWrapper({
     return <Redirect to="/students" />;
   }
 
-  let Layout = DefaultLayout;
-  if (!signed) {
-    Layout = AuthLayout;
-  } else if (isForm) {
-    Layout = FormLayout;
-  }
+  const Layout = !signed ? AuthLayout : layout;
 
   return (
     <Route
@@ -45,12 +41,12 @@ export default function RouteWrapper({
 
 RouteWrapper.propTypes = {
   isPrivate: PropTypes.bool,
-  isForm: PropTypes.bool,
+  layout: PropTypes.oneOf([DefaultLayout, AuthLayout, FormLayout, ListLayout]),
   component: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
     .isRequired,
 };
 
 RouteWrapper.defaultProps = {
   isPrivate: false,
-  isForm: false,
+  layout: DefaultLayout,
 };

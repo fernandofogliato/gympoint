@@ -1,49 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { differenceInYears, parseISO } from 'date-fns';
-import {
-  MdAdd,
-  MdModeEdit,
-  MdDelete,
-  MdNavigateBefore,
-  MdNavigateNext,
-} from 'react-icons/md';
+import { MdAdd, MdModeEdit, MdDelete } from 'react-icons/md';
+
+import Button from '~/components/Button';
 
 import api from '~/services/api';
 
-import { Container, Title, StudentTable, Pagination } from './styles';
+import Title from '~/pages/_layouts/list/styles';
+import Pagination from '~/components/Pagination';
 
 export default function StudentList(props) {
   const [students, setStudents] = useState([]);
   const [filterName, setFilterName] = useState();
 
   useEffect(() => {
-    async function loadStudents() {
-      const response = await api.get('students', {
-        params: {
-          name: filterName,
-        },
-      });
-
-      const data = response.data.map(student => ({
-        ...student,
-        age: differenceInYears(new Date(), parseISO(student.dateOfBirth)),
-      }));
-      setStudents(data);
-    }
     loadStudents();
-  }, [filterName]);
+  }, [filterName, loadStudents]);
+
+  async function loadStudents(page = 1) {
+    const response = await api.get('students', {
+      params: {
+        name: filterName,
+        page,
+      },
+    });
+
+    const data = response.data.map(student => ({
+      ...student,
+      age: differenceInYears(new Date(), parseISO(student.dateOfBirth)),
+    }));
+    setStudents(data);
+  }
 
   return (
-    <Container>
+    <>
       <Title>
         <h2>Gerenciando alunos</h2>
         <div>
-          <Link to="/students/new">
-            <MdAdd color="#fff" size={20} />
-            Novo
-          </Link>
+          <Button
+            text="Novo"
+            icon={MdAdd}
+            onClick={() => props.history.push('/students/new')}
+          />
+
           <input
             type="text"
             placeholder="Buscar aluno"
@@ -52,7 +52,7 @@ export default function StudentList(props) {
           />
         </div>
       </Title>
-      <StudentTable>
+      <table>
         <thead>
           <tr>
             <th>NOME</th>
@@ -81,19 +81,9 @@ export default function StudentList(props) {
             </tr>
           ))}
         </tbody>
-      </StudentTable>
-      <Pagination>
-        <button type="button" title="Página anterior">
-          <MdNavigateBefore color="#ee4d64" size={20} />
-        </button>
-        <button type="button">1</button>
-        <button type="button">2</button>
-        <button type="button">3</button>
-        <button type="button" title="Próxima página">
-          <MdNavigateNext color="#ee4d64" size={20} />
-        </button>
-      </Pagination>
-    </Container>
+      </table>
+      <Pagination callback={loadStudents} />
+    </>
   );
 }
 

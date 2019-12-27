@@ -11,6 +11,40 @@ export const Container = styled.div`
   max-width: 900px;
   margin: 35px auto;
   color: ${colors.fontDefault};
+
+  form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+
+    span {
+      color: ${colors.textError};
+      align-self: flex-start;
+      margin: 5px 0 10px 0;
+      font-weight: bold;
+    }
+
+    label {
+      text-align: left;
+      font-size: 14px;
+      font-weight: bold;
+      margin: 10px 0 10px 0;
+    }
+
+    input {
+      height: 44px;
+      width: 100%;
+      text-indent: 15px;
+      border: 1px solid ${colors.grey};
+      border-radius: 4px;
+      height: 36px;
+      color: ${colors.darkGrey};
+
+      &::placeholder {
+        color: ${colors.midGrey};
+      }
+    }
+  }
 `;
 
 export const Title = styled.div`
@@ -32,16 +66,7 @@ export const Content = styled.div`
   padding: 20px;
   border-radius: 4px;
 
-  label {
-    margin-top: 15px;
-  }
-
-  input {
-    height: 44px;
-    width: 100%;
-  }
-
-  > div {
+  .grid-columns {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

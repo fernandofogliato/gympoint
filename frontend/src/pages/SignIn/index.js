@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import * as Yup from 'yup';
-import { Form, Input, SubmitButton } from '~/components/Form';
+import { Form, Input } from '@rocketseat/unform';
+import Button from '~/components/Button';
 
 import { signInRequest } from '~/store/modules/auth/actions';
 
@@ -42,7 +42,7 @@ export default function SignIn() {
           placeholder="*********"
         />
 
-        <SubmitButton loading={loading}>Entrar</SubmitButton>
+        <Button text="Entrar" loading={loading} type="submit" />
       </Form>
     </>
   );

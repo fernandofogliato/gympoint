@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
-import { parseISO, isValid } from 'date-fns';
+import { parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import MaskedInput from 'react-text-mask';
 import PropTypes from 'prop-types';
@@ -16,9 +16,7 @@ export default function DatePicker({ name, label }) {
 
   useEffect(() => {
     if (defaultValue) {
-      setSelected(
-        isValid(defaultValue) ? defaultValue : parseISO(defaultValue)
-      );
+      setSelected(parseISO(defaultValue));
     }
   }, [defaultValue]);
 

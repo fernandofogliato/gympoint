@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { MdArrowBack, MdSave } from 'react-icons/md';
 import * as Yup from 'yup';
+import { Form, Input } from '@rocketseat/unform';
 
 import api from '~/services/api';
 
+import colors from '~/styles/colors';
 import DatePicker from '~/components/DatePicker';
-import { SubmitButton, BackButton, Form, Input } from '~/components/Form';
+import Button from '~/components/Button';
+import NumberInput from '~/components/NumberInput';
 import { Title, Content } from '~/pages/_layouts/form/styles';
 
 const schema = Yup.object().shape({
@@ -37,14 +40,17 @@ export default function StudentForm(props) {
   }, [id]);
 
   async function handleSubmit(data) {
-    console.tron.log(data);
-    if (id && id !== 'new') {
-      await api.put(`students/${id}`, data);
-    } else {
-      await api.post('students', data);
+    try {
+      if (id && id !== 'new') {
+        await api.put(`students/${id}`, data);
+      } else {
+        await api.post('students', data);
+      }
+      toast.success('Informações do aluno salvas com sucesso!');
+      props.history.push('/students');
+    } catch (err) {
+      toast.error('Não foi possível salvar as informações do aluno.');
     }
-    toast.success('Informações do aluno salvas com sucesso!');
-    props.history.push('/students');
   }
 
   return (
@@ -52,14 +58,13 @@ export default function StudentForm(props) {
       <Title>
         <h2>Cadastro de alunos</h2>
         <aside>
-          <BackButton onClick={() => props.history.goBack()}>
-            <MdArrowBack size={20} />
-            Voltar
-          </BackButton>
-          <SubmitButton>
-            <MdSave size={20} />
-            Salvar
-          </SubmitButton>
+          <Button
+            text="Voltar"
+            icon={MdArrowBack}
+            color={colors.grey}
+            onClick={() => props.history.goBack()}
+          />
+          <Button text="Salvar" icon={MdSave} type="submit" />
         </aside>
       </Title>
 
@@ -73,32 +78,12 @@ export default function StudentForm(props) {
           placeholder="E-mail"
         />
 
-        <div>
+        <div className="grid-columns">
           <DatePicker label="DATA NASCTO." name="dateOfBirth" />
 
-          <div>
-            <Input
-              label="PESO (em kg)"
-              name="weight"
-              type="number"
-              placeholder="Peso"
-              step="0.01"
-              min="0"
-              max="200"
-            />
-          </div>
+          <NumberInput label="PESO (em kg)" name="weight" />
 
-          <div>
-            <Input
-              label="ALTURA (em metros)"
-              name="height"
-              type="number"
-              placeholder="Altura"
-              step="0.01"
-              min="0"
-              max="3"
-            />
-          </div>
+          <NumberInput label="ALTURA (em metros)" name="height" type="number" />
         </div>
       </Content>
     </Form>
@@ -111,4 +96,5 @@ StudentForm.propTypes = {
       id: PropTypes.string,
     }),
   }).isRequired,
+  history: PropTypes.objectOf(History).isRequired,
 };
