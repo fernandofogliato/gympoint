@@ -1,7 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
+
+import colors from '~/styles/colors';
 
 export const Container = styled.div`
-  background: #fff;
+  background: ${colors.white};
   padding: 0 30px;
 `;
 
@@ -16,13 +19,6 @@ export const Content = styled.div`
   nav {
     display: flex;
     align-items: center;
-
-    a {
-      margin-left: 10px;
-      font-weight: bold;
-      color: #666;
-      white-space: nowrap;
-    }
   }
 
   aside {
@@ -31,11 +27,24 @@ export const Content = styled.div`
   }
 `;
 
+export const LinkWrapper = styled(Link)`
+  margin-left: 10px;
+  font-weight: bold;
+  color: ${colors.midGrey};
+  white-space: nowrap;
+
+  ${props =>
+    props.active &&
+    css`
+      color: ${colors.fontDefault};
+    `}
+`;
+
 export const Profile = styled.div`
   display: flex;
   margin-left: 20px;
   padding-left: 20px;
-  border-left: 1px solid #eee;
+  border-left: 1px solid ${colors.lightGrey};
 
   div {
     text-align: right;
@@ -43,16 +52,20 @@ export const Profile = styled.div`
 
     strong {
       display: block;
-      color: #666;
+      color: ${colors.darkGrey};
     }
 
     button {
       border: none;
-      background: #fff;
+      background: ${colors.white};
       display: block;
       margin-top: 2px;
       font-size: 12px;
-      color: #de3b3b;
+      color: ${colors.primary};
+
+      &:hover {
+        color: ${colors.darkPrimary};
+      }
     }
   }
 `;
