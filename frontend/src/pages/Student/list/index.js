@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { differenceInYears, parseISO } from 'date-fns';
 import { MdAdd, MdModeEdit, MdDelete } from 'react-icons/md';
@@ -7,31 +7,36 @@ import Button from '~/components/Button';
 
 import api from '~/services/api';
 
-import Title from '~/pages/_layouts/list/styles';
+import { Title } from '~/pages/_layouts/list/styles';
 import Pagination from '~/components/Pagination';
 
 export default function StudentList(props) {
   const [students, setStudents] = useState([]);
   const [filterName, setFilterName] = useState();
 
+  const loadStudents = useCallback(
+    async (page = 1) => {
+      console.tron.log('loadStudents', page);
+      const response = await api.get('students', {
+        params: {
+          name: filterName,
+          page,
+        },
+      });
+
+      const data = response.data.map(student => ({
+        ...student,
+        age: differenceInYears(new Date(), parseISO(student.dateOfBirth)),
+      }));
+      setStudents(data);
+    },
+    [filterName]
+  );
+
   useEffect(() => {
+    console.tron.log('useEffect listStudents');
     loadStudents();
   }, [filterName, loadStudents]);
-
-  async function loadStudents(page = 1) {
-    const response = await api.get('students', {
-      params: {
-        name: filterName,
-        page,
-      },
-    });
-
-    const data = response.data.map(student => ({
-      ...student,
-      age: differenceInYears(new Date(), parseISO(student.dateOfBirth)),
-    }));
-    setStudents(data);
-  }
 
   return (
     <>
@@ -80,6 +85,13 @@ export default function StudentList(props) {
               </td>
             </tr>
           ))}
+          {students.length === 0 && (
+            <tr>
+              <td colSpan="4" align="center">
+                Não foram encontrados registros.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       <Pagination callback={loadStudents} />
@@ -87,6 +99,6 @@ export default function StudentList(props) {
   );
 }
 
-StudentList.defaultProps = {
-  history: PropTypes.any,
+StudentList.propTypes = {
+  history: PropTypes.objectOf(History).isRequired,
 };
