@@ -11,4 +11,5 @@ export default {
   textError: '#fb6f91',
   fontDefault: '#444',
   backgroundDefault: '#f2f2f2',
+  backDrop: 'rgba(0, 0, 0, 0.4)',
 };

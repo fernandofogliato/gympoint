@@ -5,22 +5,41 @@ import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 
 import { PaginationWrapper, Button } from './styles';
 
-export default function Pagination({ callback }) {
+export default function Pagination({ callback, pageCount }) {
   const [page, setPage] = useState(1);
 
+  const totalPages = useMemo(() => Math.ceil(pageCount / 4), [pageCount]);
+
+  const numberOfPagesToShow = 5;
+
   const pages = useMemo(() => {
-    if (page <= 5) {
-      return [1, 2, 3, 4, 5];
+    const pagesToShow = new Array(totalPages);
+    for (let i = 0; i < totalPages; i += 1) {
+      pagesToShow[i] = i + 1;
     }
-    return [page - 2, page - 1, page, page + 1, page + 2];
-  }, [page]);
+    return pagesToShow;
+  }, [totalPages]);
+
+  const pagesAvailable = useMemo(() => {
+    if (page < numberOfPagesToShow) {
+      return pages.slice(0, numberOfPagesToShow);
+    }
+
+    if (page + 2 > totalPages) {
+      return pages.slice(totalPages - numberOfPagesToShow, totalPages);
+    }
+
+    return pages.slice(page - 3, page + 2);
+  }, [page, pages, totalPages]);
 
   useEffect(() => {
     callback(page);
   }, [callback, page]);
 
   function handleNext() {
-    setPage(page + 1);
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
   }
 
   function handlePrevious() {
@@ -39,7 +58,7 @@ export default function Pagination({ callback }) {
         <MdNavigateBefore />
       </Button>
 
-      {pages.map(p => (
+      {pagesAvailable.map(p => (
         <Button
           key={String(p)}
           type="button"
@@ -57,5 +76,6 @@ export default function Pagination({ callback }) {
 }
 
 Pagination.propTypes = {
-  callback: PropTypes.objectOf(PropTypes.func).isRequired,
+  callback: PropTypes.func.isRequired,
+  pageCount: PropTypes.number.isRequired,
 };

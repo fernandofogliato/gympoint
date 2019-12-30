@@ -4,8 +4,6 @@ import { Route, Redirect } from 'react-router-dom';
 
 import AuthLayout from '~/pages/_layouts/auth';
 import DefaultLayout from '~/pages/_layouts/default';
-import FormLayout from '~/pages/_layouts/form';
-import ListLayout from '~/pages/_layouts/list';
 
 import { store } from '~/store';
 
@@ -41,7 +39,7 @@ export default function RouteWrapper({
 
 RouteWrapper.propTypes = {
   isPrivate: PropTypes.bool,
-  layout: PropTypes.oneOf([DefaultLayout, AuthLayout, FormLayout, ListLayout]),
+  layout: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
   component: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
     .isRequired,
 };

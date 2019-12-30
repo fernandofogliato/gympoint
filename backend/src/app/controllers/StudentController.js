@@ -6,7 +6,7 @@ import Student from '../models/Student';
 
 class StudentController {
   async index(req, res) {
-    const { page = 1, limit = 10, name } = req.query;
+    const { page = 1, limit = 4, name } = req.query;
 
     const where = {
       name: {
@@ -14,7 +14,7 @@ class StudentController {
       },
     };
 
-    const students = await Student.findAll({
+    const students = await Student.findAndCountAll({
       where: name ? where : null,
       order: ['created_at'],
       attributes: ['id', 'name', 'email', 'dateOfBirth', 'weight', 'height'],
@@ -100,6 +100,13 @@ class StudentController {
       weight,
       height,
     });
+  }
+
+  async delete(req, res) {
+    await Student.destroy({
+      where: { id: req.params.id },
+    });
+    return res.status(204).send();
   }
 }
 

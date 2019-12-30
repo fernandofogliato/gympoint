@@ -34,7 +34,11 @@ function Header(props) {
           <img src={logo} alt="GoBarber" />
 
           {menus.map(menu => (
-            <LinkWrapper to={menu.to} active={isActive(menu.to)}>
+            <LinkWrapper
+              key={menu.name}
+              to={menu.to}
+              active={isActive(menu.to) ? 1 : 0}
+            >
               {menu.name}
             </LinkWrapper>
           ))}

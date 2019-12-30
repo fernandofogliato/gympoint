@@ -7,7 +7,12 @@ import { ButtonWrapper } from './styles';
 
 export default function Button({ type, color, icon, text, loading, ...rest }) {
   return (
-    <ButtonWrapper type={type} color={color} loading={loading} {...rest}>
+    <ButtonWrapper
+      type={type}
+      color={color}
+      loading={loading || undefined}
+      {...rest}
+    >
       {icon && icon()}
       {text}
     </ButtonWrapper>

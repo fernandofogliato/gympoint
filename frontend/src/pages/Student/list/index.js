@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { differenceInYears, parseISO } from 'date-fns';
 import { MdAdd, MdModeEdit, MdDelete } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import Button from '~/components/Button';
 
@@ -9,14 +10,15 @@ import api from '~/services/api';
 
 import { Title } from '~/pages/_layouts/list/styles';
 import Pagination from '~/components/Pagination';
+import { confirmDialog } from '~/components/ConfirmDialog';
 
 export default function StudentList(props) {
+  const [pageCount, setPageCount] = useState(0);
   const [students, setStudents] = useState([]);
   const [filterName, setFilterName] = useState();
 
   const loadStudents = useCallback(
     async (page = 1) => {
-      console.tron.log('loadStudents', page);
       const response = await api.get('students', {
         params: {
           name: filterName,
@@ -24,22 +26,44 @@ export default function StudentList(props) {
         },
       });
 
-      const data = response.data.map(student => ({
+      const data = response.data.rows.map(student => ({
         ...student,
         age: differenceInYears(new Date(), parseISO(student.dateOfBirth)),
       }));
       setStudents(data);
+      setPageCount(response.data.count);
     },
     [filterName]
   );
 
   useEffect(() => {
-    console.tron.log('useEffect listStudents');
     loadStudents();
   }, [filterName, loadStudents]);
 
+  function removeWithConfirmation(id) {
+    async function handleRemoveStudent() {
+      try {
+        await api.delete(`students/${id}`);
+        setStudents(students.filter(student => student.id !== id));
+      } catch (err) {
+        toast.error('Não foi possível remover o aluno.');
+      }
+    }
+
+    confirmDialog({
+      title: 'Excluir Aluno',
+      onConfirm: handleRemoveStudent,
+      ownerId: 'listStudents',
+      message: (
+        <>
+          <p>Tem certeza que deseja excluir o aluno?</p>
+        </>
+      ),
+    });
+  }
+
   return (
-    <>
+    <div id="listStudents">
       <Title>
         <h2>Gerenciando alunos</h2>
         <div>
@@ -79,7 +103,11 @@ export default function StudentList(props) {
                 >
                   <MdModeEdit size={20} />
                 </button>
-                <button type="button" title="Apagar aluno">
+                <button
+                  type="button"
+                  title="Excluir aluno"
+                  onClick={() => removeWithConfirmation(student.id)}
+                >
                   <MdDelete size={20} />
                 </button>
               </td>
@@ -94,8 +122,8 @@ export default function StudentList(props) {
           )}
         </tbody>
       </table>
-      <Pagination callback={loadStudents} />
-    </>
+      <Pagination callback={loadStudents} pageCount={pageCount} />
+    </div>
   );
 }
 
