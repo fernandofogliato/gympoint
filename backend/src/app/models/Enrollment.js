@@ -6,18 +6,15 @@ class Enrollment extends Model {
   static init(sequelize) {
     super.init(
       {
-        start_date: Sequelize.DATE,
-        end_date: Sequelize.DATE,
+        startDate: Sequelize.DATE,
+        endDate: Sequelize.DATE,
         price: Sequelize.NUMBER,
         active: {
-          type: Sequelize.VIRTUAL(Sequelize.BOOLEAN, [
-            'start_date',
-            'end_date',
-          ]),
+          type: Sequelize.VIRTUAL(Sequelize.BOOLEAN, ['startDate', 'endDate']),
           get() {
             return (
-              isBefore(this.get('start_date'), new Date()) &&
-              isAfter(this.get('end_date'), new Date())
+              isBefore(this.get('startDate'), new Date()) &&
+              isAfter(this.get('endDate'), new Date())
             );
           },
         },

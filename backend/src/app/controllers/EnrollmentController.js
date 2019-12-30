@@ -9,13 +9,13 @@ import Queue from '../../lib/Queue';
 
 class EnrollmentController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { page = 1, limit = 10 } = req.query;
 
-    const enrollments = await Enrollment.findAll({
-      order: ['start_date', 'end_date'],
-      attributes: ['id', 'start_date', 'end_date', 'price', 'active', 'active'],
-      limit: 20,
-      offset: (page - 1) * 20,
+    const enrollments = await Enrollment.findAndCountAll({
+      order: ['startDate', 'endDate'],
+      attributes: ['id', 'startDate', 'endDate', 'price', 'active', 'active'],
+      limit,
+      offset: (page - 1) * limit,
       include: [
         {
           model: Plan,
@@ -33,29 +33,35 @@ class EnrollmentController {
     return res.json(enrollments);
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+    const enrollment = await Enrollment.findByPk(id);
+    return res.json(enrollment);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       student_id: Yup.number().required(),
       plan_id: Yup.number().required(),
-      start_date: Yup.date().required(),
+      startDate: Yup.date().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const start_date = parseISO(req.body.start_date);
+    const startDate = parseISO(req.body.startDate);
 
     const { student_id, plan_id } = req.body;
 
     const { duration, total_price } = await Plan.findByPk(plan_id);
-    const end_date = addMonths(start_date, duration);
+    const endDate = addMonths(startDate, duration);
 
     let enrollment = await Enrollment.create({
       student_id,
       plan_id,
-      start_date,
-      end_date,
+      startDate,
+      endDate,
       price: total_price,
     });
 
@@ -64,7 +70,7 @@ class EnrollmentController {
      */
     enrollment = await Enrollment.findOne({
       where: enrollment.id,
-      attributes: ['id', 'start_date', 'end_date', 'price'],
+      attributes: ['id', 'startDate', 'endDate', 'price'],
       include: [
         {
           model: Plan,
@@ -87,7 +93,7 @@ class EnrollmentController {
     const schema = Yup.object().shape({
       student_id: Yup.number().required(),
       plan_id: Yup.number().required(),
-      start_date: Yup.date().required(),
+      startDate: Yup.date().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -100,15 +106,15 @@ class EnrollmentController {
     }
 
     const { plan_id } = req.body;
-    const start_date = parseISO(req.body.start_date);
+    const startDate = parseISO(req.body.startDate);
 
     const { duration, total_price } = await Plan.findByPk(plan_id);
-    const end_date = addMonths(start_date, duration);
+    const endDate = addMonths(startDate, duration);
 
     enrollment = await enrollment.update({
       plan_id,
-      start_date,
-      end_date,
+      startDate,
+      endDate,
       price: total_price,
     });
     return res.json(enrollment);

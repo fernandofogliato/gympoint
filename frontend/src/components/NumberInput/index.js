@@ -4,19 +4,21 @@ import PropTypes from 'prop-types';
 
 import { useField } from '@rocketseat/unform';
 
-export const { format: formatQuantity } = new Intl.NumberFormat('pt-BR', {
-  style: 'decimal',
-});
+import { formatQuantity, formatPrice } from '~/util/format';
 
-export default function NumberInput({ name, label }) {
+export default function NumberInput({ name, label, isCurrency }) {
   const ref = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
   const [formattedValue, setFormattedValue] = useState(defaultValue);
   const [numberValue, setNumberValue] = useState(defaultValue);
 
   useEffect(() => {
-    setFormattedValue(formatQuantity(defaultValue));
-  }, [defaultValue]);
+    if (isCurrency) {
+      setFormattedValue(formatQuantity(defaultValue));
+    } else {
+      setFormattedValue(formatPrice(defaultValue));
+    }
+  }, [defaultValue, isCurrency]);
 
   useEffect(() => {
     registerField({
@@ -57,8 +59,10 @@ export default function NumberInput({ name, label }) {
 NumberInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
+  isCurrency: PropTypes.bool,
 };
 
 NumberInput.defaultProps = {
   label: null,
+  isCurrency: false,
 };

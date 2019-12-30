@@ -3,15 +3,21 @@ import Plan from '../models/Plan';
 
 class PlanController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { page = 1, limit = 10 } = req.query;
 
-    const plans = await Plan.findAll({
-      attributes: ['id', 'title', 'price'],
-      limit: 20,
-      offset: (page - 1) * 20,
+    const plans = await Plan.findAndCountAll({
+      attributes: ['id', 'title', 'duration', 'price'],
+      limit,
+      offset: (page - 1) * limit,
     });
 
     return res.json(plans);
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+    const plan = await Plan.findByPk(id);
+    return res.json(plan);
   }
 
   async store(req, res) {

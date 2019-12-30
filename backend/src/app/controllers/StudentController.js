@@ -6,7 +6,7 @@ import Student from '../models/Student';
 
 class StudentController {
   async index(req, res) {
-    const { page = 1, limit = 4, name } = req.query;
+    const { page = 1, limit = 10, name } = req.query;
 
     const where = {
       name: {

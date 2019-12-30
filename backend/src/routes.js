@@ -34,11 +34,13 @@ routes.get('/students/:id/checkins', CheckinController.index);
 routes.post('/plans', PlanController.store);
 routes.put('/plans/:id', PlanController.update);
 routes.get('/plans', PlanController.index);
+routes.get('/plans/:id', PlanController.show);
 routes.delete('/plans/:id', PlanController.delete);
 
 routes.post('/enrollments', EnrollmentController.store);
 routes.put('/enrollments/:id', EnrollmentController.update);
 routes.get('/enrollments', EnrollmentController.index);
+routes.get('/enrollments/:id', EnrollmentController.show);
 routes.delete('/enrollments/:id', EnrollmentController.delete);
 
 routes.post('/help-orders/:id/answer', PendentHelpOrderController.store);

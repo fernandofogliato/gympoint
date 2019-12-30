@@ -6,6 +6,10 @@ import Route from './Route';
 import SignIn from '~/pages/SignIn';
 import StudentList from '~/pages/Student/list';
 import StudentForm from '~/pages/Student/form';
+import PlanList from '~/pages/Plan/list';
+import PlanForm from '~/pages/Plan/form';
+import EnrollmentList from '~/pages/Enrollment/list';
+import EnrollmentForm from '~/pages/Enrollment/form';
 
 import FormLayout from '~/pages/_layouts/form';
 import ListLayout from '~/pages/_layouts/list';
@@ -23,6 +27,27 @@ export default function Routes() {
       <Route
         path="/students"
         component={StudentList}
+        isPrivate
+        layout={ListLayout}
+      />
+
+      <Route
+        path="/plans/:id"
+        component={PlanForm}
+        isPrivate
+        layout={FormLayout}
+      />
+      <Route path="/plans" component={PlanList} isPrivate layout={ListLayout} />
+
+      <Route
+        path="/enrollments/:id"
+        component={EnrollmentForm}
+        isPrivate
+        layout={FormLayout}
+      />
+      <Route
+        path="/enrollments"
+        component={EnrollmentList}
         isPrivate
         layout={ListLayout}
       />

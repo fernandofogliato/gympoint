@@ -8,7 +8,7 @@ import { PaginationWrapper, Button } from './styles';
 export default function Pagination({ callback, pageCount }) {
   const [page, setPage] = useState(1);
 
-  const totalPages = useMemo(() => Math.ceil(pageCount / 4), [pageCount]);
+  const totalPages = useMemo(() => Math.ceil(pageCount / 10), [pageCount]);
 
   const numberOfPagesToShow = 5;
 

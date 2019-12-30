@@ -65,7 +65,7 @@ export default function StudentList(props) {
   return (
     <div id="listStudents">
       <Title>
-        <h2>Gerenciando alunos</h2>
+        <h2>Gerenciando de alunos</h2>
         <div>
           <Button
             text="Novo"
