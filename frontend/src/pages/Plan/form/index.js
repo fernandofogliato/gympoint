@@ -30,7 +30,6 @@ export default function PlanForm(props) {
         ...response.data,
         totalPrice: response.data.price * response.data.duration,
       };
-      console.tron.log(data);
       setPlan(data);
     }
 
@@ -51,6 +50,22 @@ export default function PlanForm(props) {
     } catch (err) {
       toast.error('Não foi possível salvar as informações do plano.');
     }
+  }
+
+  function handleDurationChange(newDuration) {
+    setPlan({
+      ...plan,
+      duration: newDuration,
+      totalPrice: plan.price * newDuration,
+    });
+  }
+
+  function handlePriceChange(newPrice) {
+    setPlan({
+      ...plan,
+      price: newPrice,
+      totalPrice: newPrice * plan.duration,
+    });
   }
 
   return (
@@ -76,15 +91,25 @@ export default function PlanForm(props) {
         />
 
         <div className="grid-columns">
-          <NumberInput label="DURAÇÃO (em meses)" name="duration" />
+          <NumberInput
+            label="DURAÇÃO (em meses)"
+            name="duration"
+            onChange={handleDurationChange}
+          />
 
-          <NumberInput label="PREÇO MENSAL" name="price" isCurrency />
+          <NumberInput
+            label="PREÇO MENSAL"
+            name="price"
+            isCurrency
+            onChange={handlePriceChange}
+          />
 
           <NumberInput
             label="PREÇO TOTAL"
             name="totalPrice"
             type="number"
             isCurrency
+            readOnly
           />
         </div>
       </Content>

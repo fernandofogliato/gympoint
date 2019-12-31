@@ -6,7 +6,15 @@ import { useField } from '@rocketseat/unform';
 
 import { formatQuantity, formatPrice } from '~/util/format';
 
-export default function NumberInput({ name, label, isCurrency }) {
+import { Container } from './styles';
+
+export default function NumberInput({
+  name,
+  label,
+  isCurrency,
+  readOnly,
+  onChange,
+}) {
   const ref = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
   const [formattedValue, setFormattedValue] = useState(defaultValue);
@@ -14,9 +22,9 @@ export default function NumberInput({ name, label, isCurrency }) {
 
   useEffect(() => {
     if (isCurrency) {
-      setFormattedValue(formatQuantity(defaultValue));
-    } else {
       setFormattedValue(formatPrice(defaultValue));
+    } else {
+      setFormattedValue(formatQuantity(defaultValue));
     }
   }, [defaultValue, isCurrency]);
 
@@ -32,7 +40,7 @@ export default function NumberInput({ name, label, isCurrency }) {
   }, [ref.current, fieldName]); // eslint-disable-line
 
   return (
-    <div>
+    <Container>
       <label htmlFor={fieldName}>{label}</label>
       <NumberFormat
         name={fieldName}
@@ -44,15 +52,20 @@ export default function NumberInput({ name, label, isCurrency }) {
         onValueChange={values => {
           setFormattedValue(values.formattedValue);
           setNumberValue(values.value);
+          if (onChange) {
+            onChange(values.value);
+          }
         }}
         ref={ref}
         autoComplete="off"
         allowedDecimalSeparators="[',']"
         allowNegative="false"
         decimalScale="2"
+        prefix={isCurrency ? 'R$ ' : undefined}
+        readOnly={readOnly}
       />
       {error && <span>{error}</span>}
-    </div>
+    </Container>
   );
 }
 
@@ -60,9 +73,13 @@ NumberInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   isCurrency: PropTypes.bool,
+  readOnly: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 NumberInput.defaultProps = {
   label: null,
   isCurrency: false,
+  readOnly: false,
+  onChange: null,
 };
