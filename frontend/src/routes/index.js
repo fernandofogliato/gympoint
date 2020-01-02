@@ -10,6 +10,7 @@ import PlanList from '~/pages/Plan/list';
 import PlanForm from '~/pages/Plan/form';
 import EnrollmentList from '~/pages/Enrollment/list';
 import EnrollmentForm from '~/pages/Enrollment/form';
+import HelpOrderList from '~/pages/HelpOrder/index';
 
 import FormLayout from '~/pages/_layouts/form';
 import ListLayout from '~/pages/_layouts/list';
@@ -48,6 +49,13 @@ export default function Routes() {
       <Route
         path="/enrollments"
         component={EnrollmentList}
+        isPrivate
+        layout={ListLayout}
+      />
+
+      <Route
+        path="/help-orders"
+        component={HelpOrderList}
         isPrivate
         layout={ListLayout}
       />

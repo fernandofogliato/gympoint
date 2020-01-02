@@ -80,7 +80,7 @@ export default function PlanList(props) {
               <td>{plan.title}</td>
               <td align="center">{plan.durationFormatted}</td>
               <td align="right">{plan.priceFormatted}</td>
-              <td>
+              <td align="right">
                 <button
                   type="button"
                   title="Editar plano"

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { render } from 'react-dom';
@@ -45,10 +45,6 @@ export default function ConfirmDialog(props) {
     }
     removeElementConfirmDialog();
   }
-
-  useEffect(() => {
-    createElementConfirmDialog(props);
-  }, []); // eslint-disable-line
 
   function handleCancelDialog() {
     if (onCancel) {

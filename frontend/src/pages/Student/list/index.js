@@ -95,7 +95,7 @@ export default function StudentList(props) {
               <td>{student.name}</td>
               <td>{student.email}</td>
               <td align="center">{student.age}</td>
-              <td>
+              <td align="right">
                 <button
                   type="button"
                   title="Editar aluno"

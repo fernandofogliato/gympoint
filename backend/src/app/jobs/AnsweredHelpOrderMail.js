@@ -19,8 +19,8 @@ class AnsweredHelpOrderMail {
         student: student.name,
         question: helpOrder.question,
         answer: helpOrder.answer,
-        answer_at: format(
-          parseISO(helpOrder.answer_at),
+        answerAt: format(
+          parseISO(helpOrder.answerAt),
           "'dia' dd 'de' MMMM', às' H:mm'h",
           {
             locale: pt,

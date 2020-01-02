@@ -7,20 +7,27 @@ import Queue from '../../lib/Queue';
 
 class PendentHelpOrderController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { page = 1, limit = 10 } = req.query;
 
-    const helpOrders = await HelpOrder.findAll({
-      where: { answer_at: null },
+    const helpOrders = await HelpOrder.findAndCountAll({
+      where: { answerAt: null },
       order: ['created_at'],
       attributes: ['id', 'question'],
-      limit: 20,
-      offset: (page - 1) * 20,
+      limit,
+      offset: (page - 1) * limit,
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['id', 'name'],
+        },
+      ],
     });
 
     return res.json(helpOrders);
   }
 
-  async store(req, res) {
+  async update(req, res) {
     const schema = Yup.object().shape({
       answer: Yup.string().required(),
     });
@@ -39,7 +46,7 @@ class PendentHelpOrderController {
 
     helpOrder = await helpOrder.update({
       answer: req.body.answer,
-      answer_at: new Date(),
+      answerAt: new Date(),
     });
 
     /**

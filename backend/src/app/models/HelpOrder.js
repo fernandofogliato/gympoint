@@ -6,7 +6,7 @@ class HelpOrder extends Model {
       {
         question: Sequelize.STRING,
         answer: Sequelize.STRING,
-        answer_at: Sequelize.DATE,
+        answerAt: Sequelize.DATE,
       },
       {
         sequelize,
