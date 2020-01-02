@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { differenceInYears, parseISO } from 'date-fns';
-import { MdAdd, MdModeEdit, MdDelete } from 'react-icons/md';
+import { MdAdd, MdModeEdit, MdDelete, MdSearch } from 'react-icons/md';
 import { toast } from 'react-toastify';
+import { debounce } from 'lodash';
 
 import Button from '~/components/Button';
 
@@ -11,6 +12,8 @@ import api from '~/services/api';
 import { Title } from '~/pages/_layouts/list/styles';
 import Pagination from '~/components/Pagination';
 import { confirmDialog } from '~/components/ConfirmDialog';
+
+import { Filter } from './styles';
 
 export default function StudentList(props) {
   const [pageCount, setPageCount] = useState(0);
@@ -36,10 +39,6 @@ export default function StudentList(props) {
     [filterName]
   );
 
-  useEffect(() => {
-    loadStudents();
-  }, [filterName, loadStudents]);
-
   function removeWithConfirmation(id) {
     async function handleRemoveStudent() {
       try {
@@ -62,6 +61,8 @@ export default function StudentList(props) {
     });
   }
 
+  const handleFilter = debounce(value => setFilterName(value), 500);
+
   return (
     <div id="listStudents">
       <Title>
@@ -73,12 +74,14 @@ export default function StudentList(props) {
             onClick={() => props.history.push('/students/new')}
           />
 
-          <input
-            type="text"
-            placeholder="Buscar aluno"
-            value={filterName}
-            onChange={e => setFilterName(e.target.value)}
-          />
+          <Filter>
+            <MdSearch />
+            <input
+              type="text"
+              placeholder="Buscar aluno"
+              onChange={e => handleFilter(e.target.value)}
+            />
+          </Filter>
         </div>
       </Title>
       <table>

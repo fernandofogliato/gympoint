@@ -56,7 +56,7 @@ export default function AnswerModal(props) {
         <Content>
           <Title>
             <h4>PERGUNTA DO ALUNO</h4>
-            <button type="button" onClick={() => close()}>
+            <button type="button" onClick={close}>
               <MdClose size={20} color={colors.midGrey} />
             </button>
           </Title>

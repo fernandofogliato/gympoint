@@ -35,6 +35,7 @@ export default function SelectInput({ name, label, onLoadOptions, ...rest }) {
     console.tron.log('handleChange', selectedValue);
     setValue(selectedValue);
   }
+
   return (
     <Container>
       {label && <label htmlFor={fieldName}>{label}</label>}

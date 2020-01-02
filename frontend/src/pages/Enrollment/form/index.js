@@ -67,7 +67,7 @@ export default function EnrollmentForm(props) {
   }
 
   return (
-    <Form initialData={enrollment} onSubmit={handleSubmit}>
+    <Form schema={schema} initialData={enrollment} onSubmit={handleSubmit}>
       <Title>
         <h2>Cadastro de matrícula</h2>
         <aside>

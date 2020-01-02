@@ -56,16 +56,4 @@ export const Title = styled.div`
   button {
     height: 30px;
   }
-
-  input {
-    text-indent: 15px;
-    border: 1px solid ${colors.grey};
-    border-radius: 4px;
-    height: 30px;
-    color: ${colors.darkGrey};
-
-    &::placeholder {
-      color: ${colors.midGrey};
-    }
-  }
 `;
