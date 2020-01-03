@@ -131,5 +131,7 @@ export default function StudentList(props) {
 }
 
 StudentList.propTypes = {
-  history: PropTypes.objectOf(History).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };

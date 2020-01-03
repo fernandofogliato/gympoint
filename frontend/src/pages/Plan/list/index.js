@@ -113,5 +113,7 @@ export default function PlanList(props) {
 }
 
 PlanList.propTypes = {
-  history: PropTypes.objectOf(History).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };

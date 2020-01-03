@@ -96,5 +96,8 @@ StudentForm.propTypes = {
       id: PropTypes.string,
     }),
   }).isRequired,
-  history: PropTypes.objectOf(History).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+    goBack: PropTypes.func,
+  }).isRequired,
 };

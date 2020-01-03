@@ -59,7 +59,6 @@ export default function Routes() {
         isPrivate
         layout={ListLayout}
       />
-      <Route path="/" component={() => <h1>404</h1>} />
     </Switch>
   );
 }
