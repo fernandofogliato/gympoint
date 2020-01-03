@@ -11,7 +11,7 @@ class HelpOrderController {
     const helpOrders = await HelpOrder.findAll({
       where: { student_id },
       order: ['created_at'],
-      attributes: ['id', 'question', 'answer', 'answer_at'],
+      attributes: ['id', 'question', 'answer', 'answerAt'],
       limit: 20,
       offset: (page - 1) * 20,
     });

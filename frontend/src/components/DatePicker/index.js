@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
-import { parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import MaskedInput from 'react-text-mask';
 import PropTypes from 'prop-types';
@@ -9,14 +8,14 @@ import { useField } from '@rocketseat/unform';
 
 import { Container } from './styles';
 
-export default function DatePicker({ name, label }) {
+export default function DatePicker({ name, label, readOnly, onChange }) {
   const ref = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
   const [selected, setSelected] = useState(defaultValue);
 
   useEffect(() => {
     if (defaultValue) {
-      setSelected(parseISO(defaultValue));
+      setSelected(new Date(defaultValue));
     }
   }, [defaultValue]);
 
@@ -31,6 +30,13 @@ export default function DatePicker({ name, label }) {
     });
   }, [ref.current, fieldName]); // eslint-disable-line
 
+  function handleChange(date) {
+    setSelected(date);
+    if (onChange) {
+      onChange(date);
+    }
+  }
+
   return (
     <Container>
       <label htmlFor={fieldName}>{label}</label>
@@ -38,7 +44,7 @@ export default function DatePicker({ name, label }) {
         name={fieldName}
         id={fieldName}
         selected={selected}
-        onChange={date => setSelected(date)}
+        onChange={handleChange}
         ref={ref}
         autoComplete="off"
         dateFormat="P"
@@ -48,6 +54,7 @@ export default function DatePicker({ name, label }) {
             mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
           />
         }
+        readOnly={readOnly}
       />
       {error && <span>{error}</span>}
     </Container>
@@ -57,8 +64,12 @@ export default function DatePicker({ name, label }) {
 DatePicker.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
+  readOnly: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 DatePicker.defaultProps = {
   label: null,
+  readOnly: false,
+  onChange: null,
 };

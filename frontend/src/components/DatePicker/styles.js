@@ -17,4 +17,8 @@ export const Container = styled.div`
     height: 44px;
     color: ${colors.darkGrey};
   }
+
+  input:read-only {
+    background-color: ${colors.lightGrey};
+  }
 `;

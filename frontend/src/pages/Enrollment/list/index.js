@@ -107,7 +107,7 @@ export default function EnrollmentList(props) {
                 <button
                   type="button"
                   title="Excluir matrícula"
-                  onClick={() => removeWithConfirmation(enrollments.id)}
+                  onClick={() => removeWithConfirmation(enrollment.id)}
                 >
                   <MdDelete size={20} />
                 </button>

@@ -18,8 +18,8 @@ class AnsweredHelpOrderMail {
       context: {
         student: enrollment.student.name,
         plan: enrollment.plan.title,
-        total_price: enrollment.price,
-        end_date: format(
+        totalPrice: enrollment.price,
+        endDate: format(
           parseISO(enrollment.end_date),
           "'dia' dd 'de' MMMM', às' H:mm'h",
           {

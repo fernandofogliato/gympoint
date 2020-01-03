@@ -35,14 +35,30 @@ class EnrollmentController {
 
   async show(req, res) {
     const { id } = req.params;
-    const enrollment = await Enrollment.findByPk(id);
+    const enrollment = await Enrollment.findByPk(id, {
+      attributes: ['id', 'startDate', 'endDate', 'price', 'active', 'active'],
+      include: [
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['id', 'title'],
+        },
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['id', 'name'],
+        },
+      ],
+    });
     return res.json(enrollment);
   }
 
   async store(req, res) {
+    console.log(req.body);
+
     const schema = Yup.object().shape({
-      student_id: Yup.number().required(),
-      plan_id: Yup.number().required(),
+      studentId: Yup.number().required(),
+      planId: Yup.number().required(),
       startDate: Yup.date().required(),
     });
 
@@ -52,17 +68,17 @@ class EnrollmentController {
 
     const startDate = parseISO(req.body.startDate);
 
-    const { student_id, plan_id } = req.body;
+    const { studentId, planId } = req.body;
 
-    const { duration, total_price } = await Plan.findByPk(plan_id);
+    const { duration, totalPrice } = await Plan.findByPk(planId);
     const endDate = addMonths(startDate, duration);
 
     let enrollment = await Enrollment.create({
-      student_id,
-      plan_id,
+      student_id: studentId,
+      plan_id: planId,
       startDate,
       endDate,
-      price: total_price,
+      price: totalPrice,
     });
 
     /**
@@ -91,8 +107,8 @@ class EnrollmentController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      student_id: Yup.number().required(),
-      plan_id: Yup.number().required(),
+      studentId: Yup.number().required(),
+      planId: Yup.number().required(),
       startDate: Yup.date().required(),
     });
 
@@ -105,17 +121,17 @@ class EnrollmentController {
       return res.status(404).json({ error: 'Enrollment does not exists!' });
     }
 
-    const { plan_id } = req.body;
+    const { planId } = req.body;
     const startDate = parseISO(req.body.startDate);
 
-    const { duration, total_price } = await Plan.findByPk(plan_id);
+    const { duration, totalPrice } = await Plan.findByPk(planId);
     const endDate = addMonths(startDate, duration);
 
     enrollment = await enrollment.update({
-      plan_id,
+      planId,
       startDate,
       endDate,
-      price: total_price,
+      price: totalPrice,
     });
     return res.json(enrollment);
   }
