@@ -42,7 +42,12 @@ export default function SignIn() {
           placeholder="*********"
         />
 
-        <Button text="Entrar" loading={loading} type="submit" />
+        <Button
+          text="Entrar"
+          loading={loading}
+          textLoading="Entrando..."
+          type="submit"
+        />
       </Form>
     </>
   );

@@ -25,31 +25,42 @@ const schema = Yup.object().shape({
 
 export default function StudentForm(props) {
   const [student, setStudent] = useState();
+  const [loading, setLoading] = useState(false);
   const { match } = props;
   const { id } = match.params;
 
   useEffect(() => {
     async function loadStudent() {
-      const response = await api.get(`students/${id}`);
-      setStudent(response.data);
+      try {
+        setLoading(true);
+        const response = await api.get(`students/${id}`);
+        setStudent(response.data);
+      } catch (err) {
+        toast.error('Não foi possível carregar as informações do aluno');
+      } finally {
+        setLoading(false);
+      }
     }
 
-    if (id && id !== 'new') {
+    if (id !== 'new') {
       loadStudent();
     }
   }, [id]);
 
   async function handleSubmit(data) {
     try {
-      if (id && id !== 'new') {
+      setLoading(true);
+      if (id !== 'new') {
         await api.put(`students/${id}`, data);
       } else {
         await api.post('students', data);
       }
       toast.success('Informações do aluno salvas com sucesso!');
+      setLoading(false);
       props.history.push('/students');
     } catch (err) {
       toast.error('Não foi possível salvar as informações do aluno.');
+      setLoading(false);
     }
   }
 
@@ -64,7 +75,13 @@ export default function StudentForm(props) {
             color={colors.grey}
             onClick={() => props.history.goBack()}
           />
-          <Button text="Salvar" icon={MdSave} type="submit" />
+          <Button
+            text="Salvar"
+            icon={MdSave}
+            type="submit"
+            loading={loading}
+            textLoading="Salvando..."
+          />
         </aside>
       </Title>
 

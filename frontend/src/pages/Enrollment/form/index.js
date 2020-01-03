@@ -32,6 +32,7 @@ const schema = Yup.object().shape({
 
 export default function EnrollmentForm(props) {
   const [enrollment, setEnrollment] = useState();
+  const [loading, setLoading] = useState(false);
   const { match } = props;
   const { id } = match.params;
 
@@ -41,13 +42,21 @@ export default function EnrollmentForm(props) {
       setEnrollment(response.data);
     }
 
-    if (id && id !== 'new') {
-      loadEnrollment();
+    if (id !== 'new') {
+      try {
+        setLoading(true);
+        loadEnrollment();
+      } catch (err) {
+        toast.error('Não foi possível carregar a matrícula.');
+      } finally {
+        setLoading(false);
+      }
     }
   }, [id]);
 
   async function handleSubmit({ student, plan, startDate }) {
     try {
+      setLoading(true);
       const data = {
         id,
         studentId: student.id,
@@ -55,14 +64,16 @@ export default function EnrollmentForm(props) {
         startDate: startDate.toISOString(),
       };
 
-      if (id && id !== 'new') {
+      if (id !== 'new') {
         await api.put(`enrollments/${id}`, data);
       } else {
         await api.post('enrollments', data);
       }
       toast.success('Informações da matrícula salvas com sucesso!');
+      setLoading(false);
       props.history.push('/enrollments');
     } catch (err) {
+      setLoading(false);
       toast.error('Não foi possível salvar as informações da matrícula.');
     }
   }
@@ -127,7 +138,13 @@ export default function EnrollmentForm(props) {
             color={colors.grey}
             onClick={() => props.history.goBack()}
           />
-          <Button text="Salvar" icon={MdSave} type="submit" />
+          <Button
+            text="Salvar"
+            icon={MdSave}
+            type="submit"
+            loading={loading}
+            textLoading="Salvando..."
+          />
         </aside>
       </Title>
 

@@ -4,12 +4,17 @@ import { render } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Form, Input } from '@rocketseat/unform';
 import { MdClose } from 'react-icons/md';
+import * as Yup from 'yup';
 
 import api from '~/services/api';
 import colors from '~/styles/colors';
 import Button from '~/components/Button';
 
 import { Backdrop, Container, Title, Content } from './styles';
+
+const schema = Yup.object().shape({
+  answer: Yup.string().required('A resposta é obrigatória'),
+});
 
 function removeElementAnswerModal() {
   const div = document.getElementById('answer-modal');
@@ -61,7 +66,7 @@ export default function AnswerModal(props) {
             </button>
           </Title>
           <p>{helpOrder.question}</p>
-          <Form onSubmit={handleSubmit}>
+          <Form schema={schema} onSubmit={handleSubmit}>
             <Input
               label="SUA RESPOSTA"
               name="answer"

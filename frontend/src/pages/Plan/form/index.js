@@ -20,6 +20,7 @@ const schema = Yup.object().shape({
 
 export default function PlanForm(props) {
   const [plan, setPlan] = useState();
+  const [loading, setLoading] = useState(false);
   const { match } = props;
   const { id } = match.params;
 
@@ -33,21 +34,31 @@ export default function PlanForm(props) {
       setPlan(data);
     }
 
-    if (id && id !== 'new') {
-      loadPlan();
+    if (id !== 'new') {
+      try {
+        setLoading(true);
+        loadPlan();
+      } catch (err) {
+        toast.error('Não foi possível carregar as informações dos planos');
+      } finally {
+        setLoading(false);
+      }
     }
   }, [id]);
 
   async function handleSubmit(data) {
     try {
-      if (id && id !== 'new') {
+      setLoading(true);
+      if (id !== 'new') {
         await api.put(`plans/${id}`, data);
       } else {
         await api.post('plans', data);
       }
       toast.success('Informações do plano salvas com sucesso!');
+      setLoading(false);
       props.history.push('/plans');
     } catch (err) {
+      setLoading(false);
       toast.error('Não foi possível salvar as informações do plano.');
     }
   }
@@ -79,7 +90,13 @@ export default function PlanForm(props) {
             color={colors.grey}
             onClick={() => props.history.goBack()}
           />
-          <Button text="Salvar" icon={MdSave} type="submit" />
+          <Button
+            text="Salvar"
+            icon={MdSave}
+            type="submit"
+            loading={loading}
+            textLoading="Salvando..."
+          />
         </aside>
       </Title>
 

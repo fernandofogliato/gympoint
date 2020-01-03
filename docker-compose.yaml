@@ -10,16 +10,10 @@ services:
     environment:
       POSTGRES_DB: gympoint
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: docker
+      POSTGRES_PASSWORD: postgres
 
   redis:
     container_name: 'gympoint-redis'
     image: redis:alpine
     ports:
       - "6379:6379"
-  
-  mongo:
-    container_name: 'gympoint-mongo'
-    image: mongo
-    ports:
-      - "27017:27017"

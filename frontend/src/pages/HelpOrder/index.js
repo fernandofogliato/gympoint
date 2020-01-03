@@ -62,7 +62,7 @@ export default function HelpOrderList() {
           {helpOrders.length === 0 && (
             <tr>
               <td colSpan="4" align="center">
-                Não foram encontrados pedidos de ajuda em aberto.
+                Não foram encontrados pedidos de auxílio em aberto.
               </td>
             </tr>
           )}
