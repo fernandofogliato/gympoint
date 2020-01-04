@@ -29,7 +29,9 @@ class PendentHelpOrderController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      answer: Yup.string().required(),
+      answer: Yup.string()
+        .max(1000)
+        .required(),
     });
 
     if (!(await schema.isValid(req.body))) {

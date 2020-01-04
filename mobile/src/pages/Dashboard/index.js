@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { withNavigationFocus } from 'react-navigation';
 import { Alert } from 'react-native';
+import PropTypes from 'prop-types';
 
 import api from '~/services/api';
 
 import Background from '~/components/Background';
 import Checkin from '~/components/Checkin';
+import Header from '~/components/Header';
 
-import { Container, Title, List, Loading } from './styles';
+import { Container, List, Loading, NewCheckInButton } from './styles';
 
-function Dashboard() {
+export default function Dashboard() {
   const student = useSelector(state => state.auth.student);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -26,9 +27,11 @@ function Dashboard() {
         },
       });
 
+      const rowCount = response.data.count;
+
       const newData = response.data.rows.map((checkin, index) => ({
         ...checkin,
-        title: `Check-in #${(page - 1) * 10 + (index + 1)} `,
+        title: `Check-in #${rowCount - ((page - 1) * 10 + index)} `,
       }));
 
       const data = page >= 2 ? [...checkins, ...newData] : newData;
@@ -44,21 +47,37 @@ function Dashboard() {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [checkins, page, student.id]);
+  }, [page, student.id]); // eslint-disable-line
 
-  async function loadMoreCheckins() {
+  function loadMoreCheckins() {
     setPage(page + 1);
   }
 
-  async function refreshCheckins() {
+  function refreshCheckins() {
     setRefreshing(true);
     setPage(1);
   }
 
+  async function handleNewCheckin() {
+    try {
+      await api.post(`students/${student.id}/checkins`, {});
+      refreshCheckins();
+    } catch (err) {
+      Alert.alert(
+        'Falha',
+        `Não foi possível incluir o check-in: ${err.response.data.error}`
+      );
+    }
+  }
+
   return (
     <Background>
+      <Header />
       <Container>
-        <Title>Checkins</Title>
+        <NewCheckInButton loading={loading} onPress={handleNewCheckin}>
+          Novo check-in
+        </NewCheckInButton>
+
         {loading ? (
           <Loading />
         ) : (
@@ -77,11 +96,15 @@ function Dashboard() {
   );
 }
 
+const TabBarIcon = ({ tintColor }) => (
+  <Icon name="event" size={20} color={tintColor} />
+);
+
 Dashboard.navigationOptions = {
   tabBarLabel: 'Check-in',
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name="event" size={20} color={tintColor} />
-  ),
+  tabBarIcon: TabBarIcon,
 };
 
-export default withNavigationFocus(Dashboard);
+TabBarIcon.propTypes = {
+  tintColor: PropTypes.string.isRequired,
+};

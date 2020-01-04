@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { parseISO, formatRelative } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
-import { Container, Info, Name, Time } from './styles';
+import { Container, Info, Title, Time } from './styles';
 
 export default function Checkin({ data }) {
   const dateParsed = useMemo(() => {
@@ -15,9 +16,16 @@ export default function Checkin({ data }) {
   return (
     <Container>
       <Info>
-        <Name>{data.title}</Name>
+        <Title>{data.title}</Title>
         <Time>{dateParsed}</Time>
       </Info>
     </Container>
   );
 }
+
+Checkin.propTypes = {
+  data: PropTypes.shape({
+    createdAt: PropTypes.string,
+    title: PropTypes.string,
+  }).isRequired,
+};

@@ -54,8 +54,6 @@ class EnrollmentController {
   }
 
   async store(req, res) {
-    console.log(req.body);
-
     const schema = Yup.object().shape({
       studentId: Yup.number().required(),
       planId: Yup.number().required(),
@@ -67,7 +65,6 @@ class EnrollmentController {
     }
 
     const startDate = parseISO(req.body.startDate);
-
     const { studentId, planId } = req.body;
 
     const { duration, totalPrice } = await Plan.findByPk(planId);
@@ -121,14 +118,15 @@ class EnrollmentController {
       return res.status(404).json({ error: 'Enrollment does not exists!' });
     }
 
-    const { planId } = req.body;
+    const { planId, studentId } = req.body;
     const startDate = parseISO(req.body.startDate);
 
     const { duration, totalPrice } = await Plan.findByPk(planId);
     const endDate = addMonths(startDate, duration);
 
     enrollment = await enrollment.update({
-      planId,
+      student_id: studentId,
+      plan_id: planId,
       startDate,
       endDate,
       price: totalPrice,

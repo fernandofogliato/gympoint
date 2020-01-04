@@ -15,11 +15,11 @@ module.exports = {
         allowNull: true,
       },
       question: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(1000),
         allowNull: false,
       },
       answer: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(1000),
         allowNull: true,
       },
       answer_at: {

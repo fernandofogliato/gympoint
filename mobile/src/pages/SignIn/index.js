@@ -27,7 +27,7 @@ export default function SignIn() {
 
         <Form>
           <FormInput
-            icon="account_circle"
+            icon="account-circle"
             keyboardType="phone-pad"
             autoCorrect={false}
             autoCapitalize="none"

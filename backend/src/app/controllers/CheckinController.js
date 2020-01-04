@@ -45,7 +45,7 @@ class CheckinController {
     if (lastCheckins.length >= 5) {
       return res
         .status(400)
-        .json({ error: 'Limit of five check-ins in a week was reached!' });
+        .json({ error: 'Limite de 5 check-ins em uma semana foi alcançado!' });
     }
 
     const checkin = await Checkin.create({

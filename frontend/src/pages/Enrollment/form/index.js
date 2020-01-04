@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { MdArrowBack, MdSave } from 'react-icons/md';
 import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
-import { addMonths } from 'date-fns';
+import { addMonths, parseISO } from 'date-fns';
 
 import api from '~/services/api';
 
@@ -39,7 +39,12 @@ export default function EnrollmentForm(props) {
   useEffect(() => {
     async function loadEnrollment() {
       const response = await api.get(`enrollments/${id}`);
-      setEnrollment(response.data);
+      const data = {
+        ...response.data,
+        startDate: parseISO(response.data.startDate),
+        endDate: parseISO(response.data.endDate),
+      };
+      setEnrollment(data);
     }
 
     if (id !== 'new') {

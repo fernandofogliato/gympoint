@@ -3,6 +3,7 @@ import ReactDatePicker from 'react-datepicker';
 import pt from 'date-fns/locale/pt';
 import MaskedInput from 'react-text-mask';
 import PropTypes from 'prop-types';
+import { utcToZonedTime } from 'date-fns-tz';
 
 import { useField } from '@rocketseat/unform';
 
@@ -12,12 +13,13 @@ export default function DatePicker({ name, label, readOnly, onChange }) {
   const ref = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
   const [selected, setSelected] = useState(defaultValue);
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   useEffect(() => {
     if (defaultValue) {
-      setSelected(new Date(defaultValue));
+      setSelected(utcToZonedTime(defaultValue, timezone));
     }
-  }, [defaultValue]);
+  }, [defaultValue, timezone]);
 
   useEffect(() => {
     registerField({

@@ -73,6 +73,7 @@ export default function AnswerModal(props) {
               multiline="true"
               rows="4"
               cols="50"
+              maxLength="1000"
             />
             <Button type="submit" text="Responder aluno" />
           </Form>

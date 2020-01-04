@@ -7,7 +7,7 @@ export const Container = styled.View`
   background: #fff;
 `;
 
-export const Info = styled.View`
+export const Title = styled.View`
   margin-left: 15px;
   display: flex;
   flex-direction: row;
@@ -15,14 +15,29 @@ export const Info = styled.View`
   justify-content: space-between;
 `;
 
-export const Title = styled.Text`
+export const Info = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+`;
+
+export const Status = styled.Text`
+  margin-left: 5px;
   font-weight: bold;
   font-size: 14px;
-  color: #444;
+  color: ${props => (props.answered ? '#42CB59' : '#999')};
 `;
 
 export const Time = styled.Text`
   color: #999;
   font-size: 13px;
   margin-top: 4px;
+`;
+
+export const Question = styled.Text`
+  flex: 1;
+  margin-top: 15px;
+  color: #444;
 `;

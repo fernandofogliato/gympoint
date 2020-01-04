@@ -4,16 +4,22 @@ import HelpOrder from '../models/HelpOrder';
 
 class HelpOrderController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { page = 1, limit = 10 } = req.query;
 
     const student_id = req.params.id;
 
-    const helpOrders = await HelpOrder.findAll({
+    const helpOrders = await HelpOrder.findAndCountAll({
       where: { student_id },
-      order: ['created_at'],
-      attributes: ['id', 'question', 'answer', 'answerAt'],
-      limit: 20,
-      offset: (page - 1) * 20,
+      order: [['created_at', 'DESC']],
+      attributes: [
+        'id',
+        'question',
+        'answer',
+        'answerAt',
+        ['created_at', 'createdAt'],
+      ],
+      limit,
+      offset: (page - 1) * limit,
     });
 
     return res.json(helpOrders);
@@ -21,7 +27,9 @@ class HelpOrderController {
 
   async store(req, res) {
     const schema = Yup.object().shape({
-      question: Yup.string().required(),
+      question: Yup.string()
+        .max(1000)
+        .required(),
     });
 
     if (!(await schema.isValid(req.body))) {
