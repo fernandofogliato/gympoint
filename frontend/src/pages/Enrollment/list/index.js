@@ -116,7 +116,7 @@ export default function EnrollmentList(props) {
           ))}
           {enrollments.length === 0 && (
             <tr>
-              <td colSpan="4" align="center">
+              <td colSpan="5" align="center">
                 Não foram encontrados registros.
               </td>
             </tr>

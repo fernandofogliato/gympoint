@@ -3,27 +3,25 @@ import { subDays, startOfDay, endOfDay } from 'date-fns';
 import { Op } from 'sequelize';
 
 import Checkin from '../models/Checkin';
-import Student from '../models/Student';
 
 class CheckinController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { page = 1, limit = 10 } = req.query;
+    const { id } = req.params;
 
-    const students = await Checkin.findAll({
-      order: ['created_at'],
-      attributes: ['id', 'created_at'],
-      limit: 20,
-      offset: (page - 1) * 20,
-      include: [
-        {
-          model: Student,
-          as: 'student',
-          attributes: ['id', 'name'],
+    const checkins = await Checkin.findAndCountAll({
+      where: {
+        student_id: {
+          [Op.eq]: id,
         },
-      ],
+      },
+      order: [['created_at', 'DESC']],
+      attributes: ['id', ['created_at', 'createdAt']],
+      limit,
+      offset: (page - 1) * limit,
     });
 
-    return res.json(students);
+    return res.json(checkins);
   }
 
   async store(req, res) {
