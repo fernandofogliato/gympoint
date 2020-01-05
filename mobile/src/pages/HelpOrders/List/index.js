@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { TouchableOpacity, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { withNavigationFocus } from 'react-navigation';
@@ -26,10 +27,8 @@ function ListHelpOrders({ isFocused, navigation }) {
           page,
         },
       });
-
       const newData = response.data.rows;
-      const data = page >= 2 ? [...orders, ...newData] : newData;
-      setOrders(data);
+      setOrders(old => (page >= 2 ? [...old, ...newData] : newData));
     }
 
     try {
@@ -44,7 +43,7 @@ function ListHelpOrders({ isFocused, navigation }) {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [page, student.id, isFocused]); // eslint-disable-line
+  }, [page, student.id, isFocused]);
 
   function refreshOrders() {
     setRefreshing(true);
@@ -104,5 +103,12 @@ ListHelpOrders.navigationOptions = ({ navigation }) => ({
     </TouchableOpacity>
   ),
 });
+
+ListHelpOrders.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
+  isFocused: PropTypes.bool.isRequired,
+};
 
 export default withNavigationFocus(ListHelpOrders);

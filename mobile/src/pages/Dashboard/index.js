@@ -33,9 +33,7 @@ export default function Dashboard() {
         ...checkin,
         title: `Check-in #${rowCount - ((page - 1) * 10 + index)} `,
       }));
-
-      const data = page >= 2 ? [...checkins, ...newData] : newData;
-      setCheckins(data);
+      setCheckins(old => (page >= 2 ? [...old, ...newData] : newData));
     }
 
     try {
@@ -47,7 +45,7 @@ export default function Dashboard() {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [page, student.id]); // eslint-disable-line
+  }, [page, student.id]);
 
   function loadMoreCheckins() {
     setPage(page + 1);
