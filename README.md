@@ -42,7 +42,9 @@ Para baixar as dependências do projeto, navegue até a pasta backend e rode o s
 $> yarn
 ```
 
-Ainda na pasta backend, para criar as tabelas e dados iniciais no banco de dados execute o seguinte comando:
+Criei um arquivo .env na raiz do projeto backend, há um arquivo .env.example que pode ser utilizado para tal fim, basta preencher as informações faltantes.
+
+Após criar o arquivo .env basta rodar os comandos abaixo para criar as tabelas e dados iniciais no banco de dados:
 
 ```
 $> yarn sequelize-cli db:migrate
@@ -80,6 +82,13 @@ Iniciar aplicação frontend
 $> yarn start
 ```
 
+Após inicializar o frontend basta entrar no endereço: http://localhost:3000 e utilizar as seguintes credenciais para acesso:
+
+```
+Usuário: admin@gympoint.com
+Senha: 123456
+```
+
 ### Mobile
 
 O projeto mobile foi desenvolvido e testado no **ANDROID** utilizando o emulator do **Android-SDK**.
@@ -89,9 +98,12 @@ Instalar as dependências do projeto:
 ```
 $> yarn
 ```
-### Iniciar aplicação
+Iniciar aplicação
 
 ```
 $> react-native start
 $> react-native run-android
 ```
+
+Ao criar a base de dados já existe um estudante com matrícula ativa com id: 1. Este id pode ser utilizado para testar o App sem precisar criar outros registros.
+
