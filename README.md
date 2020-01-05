@@ -42,7 +42,7 @@ Para baixar as dependências do projeto, navegue até a pasta backend e rode o s
 $> yarn
 ```
 
-Criei um arquivo .env na raiz do projeto backend, há um arquivo .env.example que pode ser utilizado para tal fim, basta preencher as informações faltantes.
+Criei um arquivo .env na raiz do projeto backend, há um arquivo .env.example que pode ser utilizado para tal fim, basta preencher as configurações que estão em branco.
 
 Após criar o arquivo .env basta rodar os comandos abaixo para criar as tabelas e dados iniciais no banco de dados:
 
