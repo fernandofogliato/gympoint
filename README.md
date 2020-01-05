@@ -21,7 +21,7 @@
 
 ## Sobre o projeto
 
-Aplicação desenvolvida com o intuito de praticar e consolidar o aprendizado adquirido por meio do bootcamp OmniStack ministrado pela equipe da Rocketseat. Trata-se de uma aplicação simples para gerenciamento de academias composto por três projeto: backend (NodeJS), frontend (ReactJS) e mobile (ReactNative). O projeto frontend reúne as funcionalidades disponibilizadas para o administrador da academia, já o mobile oferece funcionalidades para os alunos da mesma.
+Aplicação desenvolvida com o intuito de praticar e consolidar o aprendizado adquirido por meio do bootcamp OmniStack ministrado pela equipe da Rocketseat. Trata-se de uma aplicação simples para gerenciamento de academias composto por três projetos: backend (NodeJS), frontend (ReactJS) e mobile (ReactNative). O projeto frontend reúne as funcionalidades disponibilizadas para o administrador da academia, já o mobile oferece funcionalidades para os alunos da mesma.
 
 
 ### Instalação
