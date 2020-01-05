@@ -17,6 +17,11 @@ export default function NewHelpOrder({ navigation }) {
   const [question, setQuestion] = useState('');
 
   async function handleSubmit() {
+    if (!question || question.length === 0) {
+      Alert.alert('Falha', 'O campo pergunta não foi preenchido!');
+      return;
+    }
+
     try {
       setLoading(true);
       await api.post(`students/${student.id}/help-orders`, { question });

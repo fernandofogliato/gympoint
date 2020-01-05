@@ -2,9 +2,9 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   padding: 0 15px;
-  background: rgba(0, 0, 0, 0.1);
+  background: #fff;
+  border: 1px solid #ddd;
   border-radius: 4px;
-
   flex-direction: row;
   align-items: center;
 `;

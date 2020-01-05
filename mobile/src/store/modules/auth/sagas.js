@@ -9,14 +9,19 @@ export function* signIn({ payload }) {
   try {
     const { id } = payload;
 
-    const response = yield call(api.post, 'sessions/student', {
-      id,
-    });
+    if (!id || id.lenght === 0) {
+      Alert.alert('Falha', 'Informe o ID do estudante!');
+      yield put(signFailure());
+    } else {
+      const response = yield call(api.post, 'sessions/student', {
+        id,
+      });
 
-    const { student } = response.data;
-    yield put(signInSuccess(student));
+      const { student } = response.data;
+      yield put(signInSuccess(student));
+    }
   } catch (err) {
-    switch (err.status) {
+    switch (err.response.status) {
       case 401:
         Alert.alert(
           'Falha',
