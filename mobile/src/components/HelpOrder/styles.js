@@ -37,7 +37,6 @@ export const Time = styled.Text`
 `;
 
 export const Question = styled.Text`
-  flex: 1;
   margin-top: 15px;
   color: #444;
 `;

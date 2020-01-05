@@ -1,6 +1,8 @@
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
+import { formatPrice } from '../util/format';
+
 import Mail from '../../lib/Mail';
 
 class AnsweredHelpOrderMail {
@@ -18,9 +20,9 @@ class AnsweredHelpOrderMail {
       context: {
         student: enrollment.student.name,
         plan: enrollment.plan.title,
-        totalPrice: enrollment.price,
+        totalPrice: formatPrice(enrollment.price),
         endDate: format(
-          parseISO(enrollment.end_date),
+          parseISO(enrollment.endDate),
           "'dia' dd 'de' MMMM', às' H:mm'h",
           {
             locale: pt,

@@ -32,6 +32,7 @@ function ListHelpOrders({ isFocused, navigation }) {
     }
 
     try {
+      setRefreshing(true);
       setLoading(true);
       loadOrders();
     } catch (err) {
@@ -46,8 +47,9 @@ function ListHelpOrders({ isFocused, navigation }) {
   }, [page, student.id, isFocused]);
 
   function refreshOrders() {
-    setRefreshing(true);
-    setPage(1);
+    if (page !== 1) {
+      setPage(1);
+    }
   }
 
   function loadMoreOrders() {

@@ -67,7 +67,7 @@ export default function PlanForm(props) {
     setPlan({
       ...plan,
       duration: newDuration,
-      totalPrice: plan.price * newDuration,
+      totalPrice: plan ? plan.price * newDuration : 0,
     });
   }
 
@@ -75,7 +75,7 @@ export default function PlanForm(props) {
     setPlan({
       ...plan,
       price: newPrice,
-      totalPrice: newPrice * plan.duration,
+      totalPrice: plan ? newPrice * plan.duration : 0,
     });
   }
 

@@ -37,6 +37,7 @@ export default function Dashboard() {
     }
 
     try {
+      setRefreshing(true);
       setLoading(true);
       loadCheckins();
     } catch (err) {
@@ -52,8 +53,9 @@ export default function Dashboard() {
   }
 
   function refreshCheckins() {
-    setRefreshing(true);
-    setPage(1);
+    if (page !== 1) {
+      setPage(1);
+    }
   }
 
   async function handleNewCheckin() {
