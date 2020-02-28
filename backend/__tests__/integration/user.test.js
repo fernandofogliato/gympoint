@@ -41,4 +41,21 @@ describe('User', () => {
       .send(user);
     expect(response.status).toBe(400);
   });
+
+  it('should not be able to register with wrong password', async () => {
+    const user = await factory.attrs('User', {
+      email: 'teste@teste.com.br',
+      password: 123,
+      confirmPassword: 456,
+    });
+
+    await request(app)
+      .post('/users')
+      .send(user);
+
+    const response = await request(app)
+      .post('/users')
+      .send(user);
+    expect(response.status).toBe(400);
+  });
 });
