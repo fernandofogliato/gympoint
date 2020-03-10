@@ -37,7 +37,7 @@ describe('User', () => {
     expect(response.status).toBe(400);
   });
 
-  it('should not be able to register with wrong password', async () => {
+  it('should not be able to update with wrong confirm password', async () => {
     const user = await factory.attrs('User', {
       email: 'teste@teste.com.br',
       password: 123,
@@ -49,7 +49,7 @@ describe('User', () => {
       .send(user);
 
     const response = await request(app)
-      .post('/users')
+      .put('/users')
       .send(user);
     expect(response.status).toBe(400);
   });
