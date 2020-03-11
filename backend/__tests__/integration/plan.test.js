@@ -20,7 +20,7 @@ describe('Plan', () => {
     const plan = await factory.attrs('Plan');
 
     const response = await request(app)
-      .post('/plan')
+      .post('/plans')
       .set('Authorization', `Bearer ${token}`)
       .send(plan);
 
